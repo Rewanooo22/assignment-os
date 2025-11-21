@@ -1,0 +1,119 @@
+1-process_creation.c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    pid_t pid = fork();
+
+    if (pid == 0) {
+        printf("This is the child process. PID: %d\n", getpid());
+    } else if (pid > 0) {
+        printf("This is the parent process. PID: %d\n", getpid());
+    } else {
+        printf("Fork failed!\n");
+    }
+    return 0;
+}
+       
+
+fork() is used to create a new child process.
+
+After fork(), there are two processes running at the same time: the parent and the child.
+
+The variable pid tells us which process we are in:
+
+pid == 0 → this is the child process.
+
+pid > 0 → this is the parent process, and the value is the PID of the child.
+
+pid < 0 → fork failed.
+
+getpid() returns the process ID of the current process.
+
+The program prints different messages for the parent and the child.
+
+
+
+2-file1.c + file2.c (Linker
+file1
+#include <stdio.h>
+
+void hello() {
+    printf("Hello from file1!\n");
+}
+
+file2
+void hello();
+
+int main() {
+    hello();
+    return 0;
+}
+file1.c has a function hello() that prints a message.
+
+file2.c has main() and calls hello().
+
+We compile and link them together like this:
+
+gcc file1.c file2.c -o output_program
+
+
+The Linker does the following:
+
+Combines the object files into a single executable.
+
+Resolves references between files (like the hello() function call in file2.c).
+
+After linking, the program can run correctly and call hello() without errors.
+
+3-simple_program.c
+
+#include <stdio.h>
+
+int main() {
+    printf("This is a simple program.\n");
+    return 0;
+}
+This is a simple program that prints a message.
+
+After compiling (gcc simple_program.c -o simple_program), we get an executable file.
+
+When we run it, the Loader does the following:
+
+Loads the program into memory.
+
+Loads any shared libraries the program needs.
+
+Prepares the CPU to start executing the program.
+
+You can check which shared libraries are loaded dynamically using:
+
+ldd simple_program
+
+
+The Loader’s job is to take the linked program and actually make it run on the machine.
+
+
+
+The Linker combines multiple object files into a single executable program.
+
+Its responsibilities:
+
+Connecting function calls and symbols between different files.
+
+Preparing the program to run on the system.
+
+Handling external libraries (static or dynamic linking
+
+
+The Loader is responsible for loading the executable into memory and running it.
+
+Its responsibilities:
+
+Loading the executable into memory.
+
+Loading shared libraries needed by the program.
+
+Setting up the CPU to start execution.
+
+In short: the Loader is the step after linking, where the program finally runs on your machine.
